@@ -46,12 +46,13 @@ def potentialLJ(positions):
     U = 0.0
 
     # Loop through each pair of particles
-    for i in enumerate(positions):
-        for j in range(i+1, len(positions)):
-            rVec = positions[i] - positions[j]
+    for i, posi in enumerate(positions):
+        for j, posj in enumerate(positions):
+            if(j > i):
+                rVec = posi - posj
 
-            # Calculate the LJ potential for that pair
-            U += 4*(pow(rVec.length(), -12) - pow(rVec.length(), -6))
+                # Calculate the LJ potential for that pair
+                U += 4*(pow(rVec.length(), -12) - pow(rVec.length(), -6))
     return U
 
 
@@ -65,12 +66,12 @@ def potentialMorse(positions):
     U = 0.0
 
     # Loop through each pair of particles
-    for i in enumerate(positions):
-        for j in range(i+1, len(positions)):
-            rVec = positions[i] - positions[j]
-
-            # Calculate the Morse potenital for the pair
-            U += pow(1 - pow(math.e, rVec.length() - morseRe), 2)
+    for i, posi in enumerate(positions):
+        for j, posj in enumerate(positions):
+            if(j > i):
+                rVec = posi - posj
+                # Calculate the Morse potenital for the pair
+                U += pow(1 - pow(math.e, rVec.length() - morseRe), 2)
     return U
 
 
@@ -94,7 +95,7 @@ def nudgePositions(positions, factor, potential):
         nudgeNeg.append(vec3d([i.r[0], i.r[1], i.r[2]]))
 
     # Loop through each particle, and sequentially nudge the x, y and z coords
-    for i in enumerate(positions):
+    for i, posi in enumerate(positions):
         temp = [0, 0, 0]
         for j in range(3):
             # Change the positions of nudgePos and nudgeNeg
@@ -114,7 +115,7 @@ def nudgePositions(positions, factor, potential):
 
             # Nudge the coordinate of the particle to be output according to
             # dE/dr in the coordinate being worked on.
-            temp[j] = positions[i].r[j] - (1e-4 * delta)
+            temp[j] = posi.r[j] - (1e-4 * delta)
             nudgePos[i].r[j] -= factor
             nudgeNeg[i].r[j] += factor
 
