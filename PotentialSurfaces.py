@@ -20,7 +20,7 @@ class vec3d:
     def __init__(self, lst=(0, 0, 0)):
         """Initialize vector.
 
-        lst is a tuple or list with two elements (default (0, 0, 0)).
+        lst is a tuple or list with three elements (default (0, 0, 0)).
         """
         self.r = list(lst)
 
@@ -46,7 +46,7 @@ def potentialLJ(positions):
     U = 0.0
 
     # Loop through each pair of particles
-    for i in range(len(positions)):
+    for i in enumerate(positions):
         for j in range(i+1, len(positions)):
             rVec = positions[i] - positions[j]
 
@@ -65,7 +65,7 @@ def potentialMorse(positions):
     U = 0.0
 
     # Loop through each pair of particles
-    for i in range(len(positions)):
+    for i in enumerate(positions):
         for j in range(i+1, len(positions)):
             rVec = positions[i] - positions[j]
 
@@ -94,7 +94,7 @@ def nudgePositions(positions, factor, potential):
         nudgeNeg.append(vec3d([i.r[0], i.r[1], i.r[2]]))
 
     # Loop through each particle, and sequentially nudge the x, y and z coords
-    for i in range(len(positions)):
+    for i in enumerate(positions):
         temp = [0, 0, 0]
         for j in range(3):
             # Change the positions of nudgePos and nudgeNeg
@@ -165,7 +165,6 @@ x = []
 y = []
 z = []
 printI = 10000
-converged = False
 i = 0
 
 # Nudge the positions of the particles until they are moving by a
